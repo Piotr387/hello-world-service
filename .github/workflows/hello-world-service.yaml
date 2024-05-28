@@ -86,7 +86,7 @@ jobs:
               owner: 'Piotr387',
               repo: 'hello-world-service-manifests',
               workflow_id: 'change-application-version.yaml',
-              ref: 'main',
+              ref: 'master',
               inputs: {
                 service_name: 'hello-world-service',
                 image: 'ajres/hello-world-service:${{ github.sha }}',
