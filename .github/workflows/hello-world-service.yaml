@@ -8,7 +8,7 @@ on:
       - '.github/workflows/hello-world-service.yaml'
 
 jobs:
-  project-build:
+  build-and-run-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -72,3 +72,24 @@ jobs:
           tags: |
             ajres/hello-world-service:latest
             ajres/hello-world-service:${{ github.sha }}
+
+  update-manifest-in-managment-repository:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        name: Changing deployment version in hello-world-service on production environment
+        with:
+          github-token: ${{ secrets.LOGIN_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'Piotr387',
+              repo: 'hello-world-service-manifests ',
+              workflow_id: 'change-application-version.yaml',
+              ref: 'main',
+              inputs: {
+                service_name: 'hello-world-service',
+                image: 'ajres/hello-world-service:${{ github.sha }}',
+                environment: 'production'
+              }
+            })
