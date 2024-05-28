@@ -84,7 +84,7 @@ jobs:
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: 'Piotr387',
-              repo: 'hello-world-service-manifests ',
+              repo: 'hello-world-service-manifests',
               workflow_id: 'change-application-version.yaml',
               ref: 'main',
               inputs: {
