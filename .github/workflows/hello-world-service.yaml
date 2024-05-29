@@ -4,6 +4,9 @@ on:
   push:
     branches: [ master ]
     paths:
+      - 'pom.xml'
+      - 'Dockerfile'
+      - '.dockerignore'
       - 'src/**'
       - '.github/workflows/hello-world-service.yaml'
 
