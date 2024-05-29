@@ -26,6 +26,7 @@ public class AppInfoController {
         long totalMemory = ((com.sun.management.OperatingSystemMXBean) osBean).getTotalMemorySize();
 
         return String.format("""
+                Production cluster update. <br>
                 Application Name: %s, <br>
                 Version: %s, <br>
                 Number of CPUs: %d <br>
