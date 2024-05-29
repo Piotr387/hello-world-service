@@ -91,6 +91,7 @@ jobs:
               workflow_id: 'change-application-version.yaml',
               ref: 'master',
               inputs: {
+                commit_message: '${{ github.event.head_commit.message }}',
                 service_name: 'hello-world-service',
                 image: 'ajres/hello-world-service:${{ github.sha }}',
                 environment: 'production'
