@@ -63,9 +63,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get short commit hash
-        run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -74,15 +71,12 @@ jobs:
           push: true
           tags: |
             ajres/hello-world-service:latest
-            ajres/hello-world-service:${{ steps.get_short_sha.outputs.short_sha }}
+            ajres/hello-world-service:${{ github.sha }}
 
   update-manifest-in-managment-repository:
     needs: docker-build
     runs-on: ubuntu-latest
     steps:
-      - name: Get short commit hash
-        run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-
       - uses: actions/github-script@v6
         name: Changing deployment version in hello-world-service on production environment
         with:
@@ -95,7 +89,7 @@ jobs:
               ref: 'master',
               inputs: {
                 service_name: 'hello-world-service',
-                image: 'ajres/hello-world-service:${{ steps.get_short_sha.outputs.short_sha }}',
+                image: 'ajres/hello-world-service:${{ github.sha }}',
                 environment: 'production'
               }
             })
